@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿// -----------------------------------------------------------------------
+// <copyright file="MainWindow.xaml.cs" company="WebForAll">
+//   Copyright © WebForAll. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+// <author>Julien Poulin</author>
+// <date>26/03/2015</date>
+// <project>GetUp.Desktop</project>
+// <web>http://www.webforall.be</web>
+// -----------------------------------------------------------------------
 
 namespace GetUp.Desktop
 {
-  /// <summary>
-  /// Interaction logic for MainWindow.xaml
-  /// </summary>
+
+  using System.Windows;
+  using ViewModels;
+
   public partial class MainWindow : Window
   {
+
     public MainWindow()
     {
       InitializeComponent();
+      DataContext = new MainViewModel();
     }
+
   }
+
 }
