@@ -15,26 +15,37 @@ namespace GetUp.Desktop.Tools
   using System;
   using System.Runtime.InteropServices;
 
-  public struct LASTINPUTINFO
+  public static class Win32Tools
   {
 
-    public uint cbSize;
-
-    public uint dwTime;
-
-  }
-
-  public class Win32Tools
-  {
-
+    /// <summary>
+    /// Locks the workstation's display. Locking a workstation protects it from unauthorized use.
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// If the function succeeds, the return value is nonzero. Because the function executes asynchronously, a nonzero return value indicates that the operation has been initiated. It does not indicate whether the workstation has been successfully locked.
+    /// </para>
+    /// <para>
+    /// If the function fails, the return value is zero. To get extended error information, call GetLastError.
+    /// </para>
+    /// </returns>
     [DllImport("User32.dll")]
     public static extern bool LockWorkStation();
 
+    /// <summary>
+    /// Retrieves the time of the last input event.
+    /// </summary>
+    /// <param name="lastInputInfo">A pointer to a LASTINPUTINFO structure that receives the time of the last input event.</param>
+    /// <returns>
+    /// <para>
+    /// If the function succeeds, the return value is nonzero.
+    /// </para>
+    /// <para>
+    /// If the function fails, the return value is zero.
+    /// </para>
+    /// </returns>
     [DllImport("User32.dll")]
-    private static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
-
-    [DllImport("Kernel32.dll")]
-    private static extern uint GetLastError();
+    private static extern bool GetLastInputInfo(ref LastInputInfo lastInputInfo);
 
     public static TimeSpan GetIdleTime()
     {
@@ -48,15 +59,15 @@ namespace GetUp.Desktop.Tools
 
     public static TimeSpan GetLastInputTime()
     {
-      var lastinputinfo = new LASTINPUTINFO();
-      lastinputinfo.cbSize = (uint) Marshal.SizeOf(lastinputinfo);
+      var lastinputinfo = new LastInputInfo();
+      lastinputinfo.Size = (uint) Marshal.SizeOf(lastinputinfo);
 
       if (!GetLastInputInfo(ref lastinputinfo))
       {
-        throw new Exception(GetLastError().ToString());
+        throw new Exception(Marshal.GetLastWin32Error().ToString());
       }
 
-      return TimeSpan.FromMilliseconds(lastinputinfo.dwTime);
+      return TimeSpan.FromMilliseconds(lastinputinfo.Time);
     }
 
   }

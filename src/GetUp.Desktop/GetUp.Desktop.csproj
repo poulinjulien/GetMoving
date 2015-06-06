@@ -79,6 +79,7 @@
     </ApplicationDefinition>
     <Compile Include="Controls\AutoGrayableImage.cs" />
     <Compile Include="Converters\TimeSpanToIntConverter.cs" />
+    <Compile Include="Tools\LastInputInfo.cs" />
     <Compile Include="Tools\Win32Tools.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Page Include="MainWindow.xaml">
