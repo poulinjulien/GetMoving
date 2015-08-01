@@ -33,7 +33,14 @@ namespace GetUp.Desktop.Converters
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      return TimeSpan.FromMinutes((int) value);
+      int minutes;
+
+      if (int.TryParse(value.ToString(), out minutes))
+      {
+        return TimeSpan.FromMinutes(minutes);
+      }
+
+      return Binding.DoNothing;
     }
 
   }

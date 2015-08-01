@@ -17,6 +17,7 @@ namespace GetUp.Desktop.ViewModels
   using System.Threading;
   using System.Windows;
   using GalaSoft.MvvmLight;
+  using GalaSoft.MvvmLight.CommandWpf;
   using JetBrains.Annotations;
   using Tools;
 
@@ -134,6 +135,38 @@ namespace GetUp.Desktop.ViewModels
       if (ActiveTime > MaximumActiveTime + PauseThreshold)
       {
         MessageBox.Show("Pause needed!");
+      }
+    }
+
+    private RelayCommand<int> _IncrementMaximumActiveTimeCommand;
+
+    [UsedImplicitly]
+    public RelayCommand<int> IncrementMaximumActiveTimeCommand
+    {
+      get { return _IncrementMaximumActiveTimeCommand ?? (_IncrementMaximumActiveTimeCommand = new RelayCommand<int>(IncrementMaximumActiveTime)); }
+    }
+
+    private void IncrementMaximumActiveTime(int step)
+    {
+      if (MaximumActiveTime + TimeSpan.FromMinutes(step) > TimeSpan.Zero)
+      {
+        MaximumActiveTime = MaximumActiveTime.Add(TimeSpan.FromMinutes(step));
+      }
+    }
+
+    private RelayCommand<int> _IncrementPauseThresholdCommand;
+
+    [UsedImplicitly]
+    public RelayCommand<int> IncrementPauseThresholdCommand
+    {
+      get { return _IncrementPauseThresholdCommand ?? (_IncrementPauseThresholdCommand = new RelayCommand<int>(IncrementPauseThreshold)); }
+    }
+
+    private void IncrementPauseThreshold(int step)
+    {
+      if (PauseThreshold + TimeSpan.FromMinutes(step) > TimeSpan.Zero)
+      {
+        PauseThreshold = PauseThreshold.Add(TimeSpan.FromMinutes(step));
       }
     }
 
