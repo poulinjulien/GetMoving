@@ -2,89 +2,95 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:converters="clr-namespace:GetUp.Desktop.Converters"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         Title="MainWindow" SizeToContent="WidthAndHeight"
+        ResizeMode="CanMinimize"
         Foreground="White" FontSize="24" FontFamily="Segoe UI Light">
   <Window.Background>
     <ImageBrush ImageSource="/Resources/Background.jpg" Stretch="UniformToFill" />
   </Window.Background>
-  <UniformGrid Margin="20" Columns="2">
-    <Border Background="#CB324B" Margin="20" CornerRadius="4" Grid.IsSharedSizeScope="True">
-      <Border.Effect>
-        <DropShadowEffect BlurRadius="10" Opacity=".5" ShadowDepth="0" />
-      </Border.Effect>
-      <StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="15">
-          <TextBlock Text="&#xf085;" FontFamily="Fonts/#FontAwesome" HorizontalAlignment="Center" Margin="10,15,10,10" />
-          <TextBlock Text="Active Time" HorizontalAlignment="Center" Margin="20,10" />
-        </StackPanel>
-        <Border Background="#E54C65">
-          <TextBlock FontSize="48" Text="{Binding ActiveTime, StringFormat={}{0:hh\\:mm\\:ss}, FallbackValue=--\:--}"
+  <Grid>
+    <tb:TaskbarIcon IconSource="Resources/gear.ico" ToolTipText="Get Up!"
+                    DoubleClickCommand="{Binding RestoreWindowCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
+    <UniformGrid Margin="20" Columns="2">
+      <Border Background="#CB324B" Margin="20" CornerRadius="4" Grid.IsSharedSizeScope="True">
+        <Border.Effect>
+          <DropShadowEffect BlurRadius="10" Opacity=".5" ShadowDepth="0" />
+        </Border.Effect>
+        <StackPanel>
+          <StackPanel Orientation="Horizontal" Margin="15">
+            <TextBlock Text="&#xf085;" FontFamily="Fonts/#FontAwesome" HorizontalAlignment="Center" Margin="10,15,10,10" />
+            <TextBlock Text="Active Time" HorizontalAlignment="Center" Margin="20,10" />
+          </StackPanel>
+          <Border Background="#E54C65">
+            <TextBlock FontSize="48" Text="{Binding ActiveTime, StringFormat={}{0:hh\\:mm\\:ss}, FallbackValue=--\:--}"
                    HorizontalAlignment="Center" FontWeight="Bold" Margin="20" />
-        </Border>
-        <Border Background="#394264" CornerRadius="0,0,4,4">
-          <Grid>
-            <Grid.RowDefinitions>
-              <RowDefinition Height="Auto" />
-              <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <TextBlock Margin="15" TextAlignment="Center">Maximum</TextBlock>
-            <Grid Grid.Row="1">
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-              </Grid.ColumnDefinitions>
-              <RepeatButton Background="Transparent" BorderBrush="Transparent" Padding="15" FontSize="28" Foreground="White"
+          </Border>
+          <Border Background="#394264" CornerRadius="0,0,4,4">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <TextBlock Margin="15" TextAlignment="Center">Maximum</TextBlock>
+              <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <RepeatButton Background="Transparent" BorderBrush="Transparent" Padding="15" FontSize="28" Foreground="White"
                     Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Content="&#xf147;" FontFamily="Fonts/#FontAwesome"
                       Command="{Binding IncrementMaximumActiveTimeCommand}" CommandParameter="-1" Style="{DynamicResource LeftRepeatButtonStyle}" />
-              <TextBox Grid.Column="1" Text="{Binding MaximumActiveTime, Converter={converters:TimeSpanToIntConverter}, FallbackValue=30}"
+                <TextBox Grid.Column="1" Text="{Binding MaximumActiveTime, Converter={converters:TimeSpanToIntConverter}, FallbackValue=30}"
                  TextAlignment="center" BorderBrush="Transparent" Background="Transparent" FontSize="36" Foreground="White" CaretBrush="White" />
-              <RepeatButton Grid.Column="2" Background="Transparent" BorderBrush="Transparent" Padding="15" FontSize="28" Foreground="White"
+                <RepeatButton Grid.Column="2" Background="Transparent" BorderBrush="Transparent" Padding="15" FontSize="28" Foreground="White"
                     Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Content="&#xf196;" FontFamily="Fonts/#FontAwesome"
                      Command="{Binding IncrementMaximumActiveTimeCommand}" CommandParameter="1" Style="{DynamicResource RightRepeatButtonStyle}" />
+              </Grid>
             </Grid>
-          </Grid>
-        </Border>
-      </StackPanel>
-    </Border>
-    <Border Background="#1A4E94" Margin="20" CornerRadius="4">
-      <Border.Effect>
-        <DropShadowEffect BlurRadius="10" Opacity=".5" ShadowDepth="0" />
-      </Border.Effect>
-      <StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="15">
-          <TextBlock Text="&#xf0f4;" FontFamily="Fonts/#FontAwesome" HorizontalAlignment="Center" Margin="10,15,10,10" />
-          <TextBlock Text="Idle Time" HorizontalAlignment="Center" Margin="20,10" />
+          </Border>
         </StackPanel>
-        <Border Background="#3468AE">
-          <TextBlock FontSize="48" Text="{Binding IdleTime, StringFormat={}{0:hh\\:mm\\:ss}, FallbackValue=--\:--}"
+      </Border>
+      <Border Background="#1A4E94" Margin="20" CornerRadius="4">
+        <Border.Effect>
+          <DropShadowEffect BlurRadius="10" Opacity=".5" ShadowDepth="0" />
+        </Border.Effect>
+        <StackPanel>
+          <StackPanel Orientation="Horizontal" Margin="15">
+            <TextBlock Text="&#xf0f4;" FontFamily="Fonts/#FontAwesome" HorizontalAlignment="Center" Margin="10,15,10,10" />
+            <TextBlock Text="Idle Time" HorizontalAlignment="Center" Margin="20,10" />
+          </StackPanel>
+          <Border Background="#3468AE">
+            <TextBlock FontSize="48" Text="{Binding IdleTime, StringFormat={}{0:hh\\:mm\\:ss}, FallbackValue=--\:--}"
                    HorizontalAlignment="Center" FontWeight="Bold" Margin="20" />
-        </Border>
-        <Border Background="#394264" CornerRadius="0,0,4,4">
-          <Grid>
-            <Grid.RowDefinitions>
-              <RowDefinition Height="Auto" />
-              <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <TextBlock Margin="15" TextAlignment="Center">Minimum</TextBlock>
-            <Grid Grid.Row="1">
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-              </Grid.ColumnDefinitions>
-              <RepeatButton Background="Transparent" BorderBrush="Transparent" Padding="15" FontSize="28" Foreground="White"
+          </Border>
+          <Border Background="#394264" CornerRadius="0,0,4,4">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <TextBlock Margin="15" TextAlignment="Center">Minimum</TextBlock>
+              <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <RepeatButton Background="Transparent" BorderBrush="Transparent" Padding="15" FontSize="28" Foreground="White"
                     Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Content="&#xf147;" FontFamily="Fonts/#FontAwesome"
                             Command="{Binding IncrementPauseThresholdCommand}" CommandParameter="-1" Style="{DynamicResource LeftRepeatButtonStyle}" />
-              <TextBox Grid.Column="1" Text="{Binding PauseThreshold, Converter={converters:TimeSpanToIntConverter}, FallbackValue=2}"
+                <TextBox Grid.Column="1" Text="{Binding PauseThreshold, Converter={converters:TimeSpanToIntConverter}, FallbackValue=2}"
                  TextAlignment="center" BorderBrush="Transparent" Background="Transparent" FontSize="36" Foreground="White" CaretBrush="White" />
-              <RepeatButton Grid.Column="2" Background="Transparent" BorderBrush="Transparent" Padding="15" FontSize="28" Foreground="White"
+                <RepeatButton Grid.Column="2" Background="Transparent" BorderBrush="Transparent" Padding="15" FontSize="28" Foreground="White"
                     Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Content="&#xf196;" FontFamily="Fonts/#FontAwesome"
                             Command="{Binding IncrementPauseThresholdCommand}" CommandParameter="1" Style="{DynamicResource RightRepeatButtonStyle}" />
+              </Grid>
             </Grid>
-          </Grid>
-        </Border>
-      </StackPanel>
-    </Border>
-  </UniformGrid>
+          </Border>
+        </StackPanel>
+      </Border>
+    </UniformGrid>
+  </Grid>
 </Window>
