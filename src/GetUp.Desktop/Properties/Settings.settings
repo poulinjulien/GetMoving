@@ -2,17 +2,17 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="GetUp.Desktop.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="MaximumActiveTime" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="MaximumActiveTime" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="MinimumIdleTime" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="MinimumIdleTime" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="WindowPositionX" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="WindowPositionX" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="WindowPositionY" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="WindowPositionY" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

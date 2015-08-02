@@ -25,10 +25,10 @@ namespace GetUp.Desktop.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string MaximumActiveTime {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int MaximumActiveTime {
             get {
-                return ((string)(this["MaximumActiveTime"]));
+                return ((int)(this["MaximumActiveTime"]));
             }
             set {
                 this["MaximumActiveTime"] = value;
@@ -37,10 +37,10 @@ namespace GetUp.Desktop.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string MinimumIdleTime {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int MinimumIdleTime {
             get {
-                return ((string)(this["MinimumIdleTime"]));
+                return ((int)(this["MinimumIdleTime"]));
             }
             set {
                 this["MinimumIdleTime"] = value;
@@ -49,10 +49,10 @@ namespace GetUp.Desktop.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string WindowPositionX {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double WindowPositionX {
             get {
-                return ((string)(this["WindowPositionX"]));
+                return ((double)(this["WindowPositionX"]));
             }
             set {
                 this["WindowPositionX"] = value;
@@ -61,10 +61,10 @@ namespace GetUp.Desktop.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string WindowPositionY {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double WindowPositionY {
             get {
-                return ((string)(this["WindowPositionY"]));
+                return ((double)(this["WindowPositionY"]));
             }
             set {
                 this["WindowPositionY"] = value;

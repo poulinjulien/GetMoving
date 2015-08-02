@@ -25,8 +25,23 @@ namespace GetUp.Desktop
 
     public MainWindow()
     {
+      Loaded += MainWindow_Loaded;
       InitializeComponent();
       DataContext = new MainViewModel();
+    }
+
+    private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+    {
+      Left = Properties.Settings.Default.WindowPositionX;
+      Top = Properties.Settings.Default.WindowPositionY;
+      LocationChanged += MainWindow_LocationChanged;
+    }
+
+    private void MainWindow_LocationChanged(object sender, EventArgs e)
+    {
+      Properties.Settings.Default.WindowPositionX = Left;
+      Properties.Settings.Default.WindowPositionY = Top;
+      Properties.Settings.Default.Save();
     }
 
     public ICommand RestoreWindowCommand
