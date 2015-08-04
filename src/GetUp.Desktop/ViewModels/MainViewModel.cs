@@ -21,7 +21,7 @@ namespace GetUp.Desktop.ViewModels
   using JetBrains.Annotations;
   using Tools;
 
-  public class MainViewModel : ViewModelBase
+  public sealed class MainViewModel : ViewModelBase, IDisposable
   {
 
     private const int TimerResolution = 250;
@@ -121,7 +121,7 @@ namespace GetUp.Desktop.ViewModels
 
     private void UpdateTimes()
     {
-      IdleTime = Win32Tools.GetIdleTime();
+      IdleTime = UserInputTools.GetIdleTime();
 
       if (IdleTime < PauseThreshold)
       {
@@ -168,6 +168,11 @@ namespace GetUp.Desktop.ViewModels
       {
         PauseThreshold = PauseThreshold.Add(TimeSpan.FromMinutes(step));
       }
+    }
+
+    public void Dispose()
+    {
+      _Timer.Dispose();
     }
 
   }

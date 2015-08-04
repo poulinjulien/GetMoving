@@ -16,6 +16,7 @@ namespace GetUp.Desktop
   using System.Windows;
   using System.Windows.Input;
   using GalaSoft.MvvmLight.Command;
+  using Properties;
   using ViewModels;
 
   public partial class MainWindow
@@ -32,23 +33,22 @@ namespace GetUp.Desktop
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
     {
-      Left = Properties.Settings.Default.WindowPositionX;
-      Top = Properties.Settings.Default.WindowPositionY;
+      var settings = Settings.Default;
+      Left = settings.WindowPositionX;
+      Top = settings.WindowPositionY;
       LocationChanged += MainWindow_LocationChanged;
     }
 
     private void MainWindow_LocationChanged(object sender, EventArgs e)
     {
-      Properties.Settings.Default.WindowPositionX = Left;
-      Properties.Settings.Default.WindowPositionY = Top;
-      Properties.Settings.Default.Save();
+      var settings = Settings.Default;
+      settings.WindowPositionX = Left;
+      settings.WindowPositionY = Top;
+      settings.Save();
     }
 
-    public ICommand RestoreWindowCommand
-    {
-      get { return _RestoreWindowCommand ?? (_RestoreWindowCommand = new RelayCommand(RestoreWindow)); }
-    }
-    
+    public ICommand RestoreWindowCommand => _RestoreWindowCommand ?? (_RestoreWindowCommand = new RelayCommand(RestoreWindow));
+
     private void RestoreWindow()
     {
       WindowState = WindowState.Normal;
