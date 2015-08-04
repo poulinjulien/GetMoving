@@ -19,6 +19,7 @@ namespace GetUp.Desktop.ViewModels
   using GalaSoft.MvvmLight;
   using GalaSoft.MvvmLight.CommandWpf;
   using JetBrains.Annotations;
+  using Properties;
   using Tools;
 
   public sealed class MainViewModel : ViewModelBase, IDisposable
@@ -92,6 +93,7 @@ namespace GetUp.Desktop.ViewModels
         if (!value.Equals(_PauseThreshold))
         {
           _PauseThreshold = value;
+          Settings.Default.PauseThreshold = (int) value.TotalMinutes;
           RaisePropertyChanged();
         }
       }
@@ -107,6 +109,7 @@ namespace GetUp.Desktop.ViewModels
         if (!value.Equals(_MaximumActiveTime))
         {
           _MaximumActiveTime = value;
+          Settings.Default.MaximumActiveTime = (int) value.TotalMinutes;
           RaisePropertyChanged();
         }
       }
@@ -114,8 +117,8 @@ namespace GetUp.Desktop.ViewModels
 
     public MainViewModel()
     {
-      MaximumActiveTime = TimeSpan.FromMinutes(30);
-      PauseThreshold = TimeSpan.FromMinutes(3);
+      MaximumActiveTime = TimeSpan.FromMinutes(Settings.Default.MaximumActiveTime);
+      PauseThreshold = TimeSpan.FromMinutes(Settings.Default.PauseThreshold);
       _Timer = new Timer(_ => UpdateTimes(), null, TimeSpan.FromMilliseconds(TimerResolution), TimeSpan.FromMilliseconds(TimerResolution));
     }
 

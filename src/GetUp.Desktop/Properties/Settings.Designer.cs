@@ -25,7 +25,7 @@ namespace GetUp.Desktop.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("25")]
         public int MaximumActiveTime {
             get {
                 return ((int)(this["MaximumActiveTime"]));
@@ -37,13 +37,13 @@ namespace GetUp.Desktop.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int MinimumIdleTime {
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int PauseThreshold {
             get {
-                return ((int)(this["MinimumIdleTime"]));
+                return ((int)(this["PauseThreshold"]));
             }
             set {
-                this["MinimumIdleTime"] = value;
+                this["PauseThreshold"] = value;
             }
         }
         

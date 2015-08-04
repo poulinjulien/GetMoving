@@ -12,8 +12,17 @@
 namespace GetUp.Desktop
 {
 
+  using System.Windows;
+
   public partial class App
   {
+
+    protected override void OnExit(ExitEventArgs e)
+    {
+      base.OnExit(e);
+
+      Desktop.Properties.Settings.Default.Save();
+    }
 
   }
 

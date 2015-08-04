@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="MaximumActiveTime" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">25</Value>
     </Setting>
-    <Setting Name="MinimumIdleTime" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+    <Setting Name="PauseThreshold" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
     </Setting>
     <Setting Name="WindowPositionX" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0</Value>

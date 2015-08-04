@@ -34,17 +34,18 @@ namespace GetUp.Desktop
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
     {
       var settings = Settings.Default;
-      Left = settings.WindowPositionX;
-      Top = settings.WindowPositionY;
+      if (settings.WindowPositionX != 0.0 && settings.WindowPositionY != 0.0)
+      {
+        Left = settings.WindowPositionX;
+        Top = settings.WindowPositionY;
+      }
       LocationChanged += MainWindow_LocationChanged;
     }
 
     private void MainWindow_LocationChanged(object sender, EventArgs e)
     {
-      var settings = Settings.Default;
-      settings.WindowPositionX = Left;
-      settings.WindowPositionY = Top;
-      settings.Save();
+      Settings.Default.WindowPositionX = Left;
+      Settings.Default.WindowPositionY = Top;
     }
 
     public ICommand RestoreWindowCommand => _RestoreWindowCommand ?? (_RestoreWindowCommand = new RelayCommand(RestoreWindow));
