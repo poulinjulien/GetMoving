@@ -20,7 +20,7 @@ namespace GetUp.Desktop.Controls
 
   /// <summary>
   /// Class used to have an image that is able to be grayed when the control is not enabled.
-  /// Author: Thomas LEBRUN (http://blogs.developpeur.org/tom).
+  /// Author: Thomas LEBRUN (http://blogs.developpeur.org/tom/archive/2009/01/19/wpf-comment-griser-l-icone-d-un-menuitem-qui-est-d-sactiv.aspx).
   /// </summary>
   public class AutoGrayableImage : Image
   {
@@ -33,35 +33,23 @@ namespace GetUp.Desktop.Controls
 
     private BitmapSource OriginalImage
     {
-      get
-      {
-        _OriginalImage = _OriginalImage ?? (BitmapSource) Source;
-        return _OriginalImage;
-      }
+      get { return _OriginalImage ?? (_OriginalImage = (BitmapSource) Source); }
     }
 
     private BitmapSource GrayedImage
     {
-      get
-      {
-        _GrayedImage = _GrayedImage ?? new FormatConvertedBitmap(OriginalImage, PixelFormats.Gray32Float, null, 0);
-        return _GrayedImage;
-      }
+      get { return _GrayedImage ?? (_GrayedImage = new FormatConvertedBitmap(OriginalImage, PixelFormats.Gray32Float, null, 0)); }
     }
 
     private Brush GrayedOpacityMask
     {
-      get
-      {
-        _GrayedOpacityMask = _GrayedOpacityMask ?? new ImageBrush(OriginalImage);
-        return _GrayedOpacityMask;
-      }
+      get { return _GrayedOpacityMask ?? (_GrayedOpacityMask = new ImageBrush(OriginalImage)); }
     }
 
     static AutoGrayableImage()
     {
-      IsEnabledProperty.OverrideMetadata(typeof(AutoGrayableImage), new FrameworkPropertyMetadata(true, OnAutoGreyScaleImageIsEnabledPropertyChanged));
-      SourceProperty.OverrideMetadata(typeof(AutoGrayableImage), new FrameworkPropertyMetadata(null, OnAutoGreyScaleImageSourcePropertyChanged));
+      IsEnabledProperty.OverrideMetadata(typeof (AutoGrayableImage), new FrameworkPropertyMetadata(true, OnAutoGreyScaleImageIsEnabledPropertyChanged));
+      SourceProperty.OverrideMetadata(typeof (AutoGrayableImage), new FrameworkPropertyMetadata(null, OnAutoGreyScaleImageSourcePropertyChanged));
     }
 
     private static void OnAutoGreyScaleImageSourcePropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs args)
@@ -82,11 +70,6 @@ namespace GetUp.Desktop.Controls
       }
     }
 
-    /// <summary>
-    /// Called when [auto grey scale image is enabled property changed].
-    /// </summary>
-    /// <param name="source">The source.</param>
-    /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
     private static void OnAutoGreyScaleImageIsEnabledPropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs args)
     {
       var autoGreyScaleImg = source as AutoGrayableImage;
@@ -107,4 +90,5 @@ namespace GetUp.Desktop.Controls
     }
 
   }
+
 }
