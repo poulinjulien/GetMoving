@@ -16,6 +16,7 @@ namespace GetUp.Desktop
   using System.Windows;
   using System.Windows.Input;
   using GalaSoft.MvvmLight.Command;
+  using Hardcodet.Wpf.TaskbarNotification;
   using Properties;
   using ViewModels;
 
@@ -28,7 +29,15 @@ namespace GetUp.Desktop
     {
       Loaded += MainWindow_Loaded;
       InitializeComponent();
-      DataContext = new MainViewModel();
+      DataContext = CreateViewModel();
+    }
+
+    private MainViewModel CreateViewModel()
+    {
+      var viewModel = new MainViewModel();
+      viewModel.MaximumActiveTimeElapsed += (s, e) => OnMaximumActiveTimeElapsed();
+
+      return viewModel;
     }
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -39,20 +48,20 @@ namespace GetUp.Desktop
         Left = settings.WindowPositionX;
         Top = settings.WindowPositionY;
       }
-      LocationChanged += MainWindow_LocationChanged;
-    }
-
-    private void MainWindow_LocationChanged(object sender, EventArgs e)
-    {
-      Settings.Default.WindowPositionX = Left;
-      Settings.Default.WindowPositionY = Top;
     }
 
     public ICommand RestoreWindowCommand => _RestoreWindowCommand ?? (_RestoreWindowCommand = new RelayCommand(RestoreWindow));
 
     private void RestoreWindow()
     {
-      WindowState = WindowState.Normal;
+      if (Dispatcher.CheckAccess())
+      {
+        WindowState = WindowState.Normal;
+      }
+      else
+      {
+        Dispatcher.Invoke(RestoreWindow);
+      }
     }
 
     protected override void OnStateChanged(EventArgs e)
@@ -60,6 +69,21 @@ namespace GetUp.Desktop
       base.OnStateChanged(e);
 
       ShowInTaskbar = WindowState == WindowState.Normal;
+    }
+
+    private void OnMaximumActiveTimeElapsed()
+    {
+      RestoreWindow();
+      TaskbarIcon.ShowBalloonTip("Title", "Time to Get Up!", BalloonIcon.Info);
+    }
+
+    protected override void OnClosed(EventArgs e)
+    {
+      Settings.Default.WindowPositionX = Left;
+      Settings.Default.WindowPositionY = Top;
+      Settings.Default.Save();
+
+      base.OnClosed(e);
     }
 
   }

@@ -19,9 +19,9 @@ namespace GetUp.Desktop
 
     protected override void OnExit(ExitEventArgs e)
     {
-      base.OnExit(e);
-
       Desktop.Properties.Settings.Default.Save();
+
+      base.OnExit(e);
     }
 
   }

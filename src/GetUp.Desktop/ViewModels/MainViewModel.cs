@@ -15,7 +15,6 @@ namespace GetUp.Desktop.ViewModels
   using System;
   using System.Runtime.CompilerServices;
   using System.Threading;
-  using System.Windows;
   using GalaSoft.MvvmLight;
   using GalaSoft.MvvmLight.CommandWpf;
   using JetBrains.Annotations;
@@ -27,7 +26,7 @@ namespace GetUp.Desktop.ViewModels
 
     private const int TimerResolution = 250;
 
-    private Timer _Timer;
+    private readonly Timer _Timer;
 
 #if DEBUG
     [NotifyPropertyChangedInvocator]
@@ -36,6 +35,13 @@ namespace GetUp.Desktop.ViewModels
       base.RaisePropertyChanged(propertyName);
     }
 #endif
+
+    public event EventHandler MaximumActiveTimeElapsed;
+
+    private void OnMaximumActiveTimeElapsed()
+    {
+      MaximumActiveTimeElapsed?.Invoke(this, EventArgs.Empty);
+    }
 
     private bool _IsEnabled;
 
@@ -115,6 +121,23 @@ namespace GetUp.Desktop.ViewModels
       }
     }
 
+    public bool HasMaximumActiveTimeElapsed
+    {
+      get { return _HasMaximumActiveTimeElapsed; }
+      set
+      {
+        if (!value.Equals(_HasMaximumActiveTimeElapsed))
+        {
+          _HasMaximumActiveTimeElapsed = value;
+          RaisePropertyChanged();
+          if (_HasMaximumActiveTimeElapsed)
+          {
+            OnMaximumActiveTimeElapsed();
+          }
+        }
+      }
+    }
+
     public MainViewModel()
     {
       MaximumActiveTime = TimeSpan.FromMinutes(Settings.Default.MaximumActiveTime);
@@ -133,11 +156,12 @@ namespace GetUp.Desktop.ViewModels
       else
       {
         ActiveTime = TimeSpan.Zero;
+        HasMaximumActiveTimeElapsed = false;
       }
 
-      if (ActiveTime > MaximumActiveTime + PauseThreshold)
+      if (!HasMaximumActiveTimeElapsed && ActiveTime > MaximumActiveTime + PauseThreshold)
       {
-        MessageBox.Show("Pause needed!");
+        HasMaximumActiveTimeElapsed = true;
       }
     }
 
@@ -158,6 +182,8 @@ namespace GetUp.Desktop.ViewModels
     }
 
     private RelayCommand<int> _IncrementPauseThresholdCommand;
+
+    private bool _HasMaximumActiveTimeElapsed;
 
     [UsedImplicitly]
     public RelayCommand<int> IncrementPauseThresholdCommand

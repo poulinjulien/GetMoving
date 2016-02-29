@@ -10,7 +10,7 @@
     <ImageBrush ImageSource="/Resources/Background.jpg" Stretch="UniformToFill" />
   </Window.Background>
   <Grid>
-    <tb:TaskbarIcon IconSource="Resources/gear.ico" ToolTipText="Get Up!"
+    <tb:TaskbarIcon IconSource="Resources/gear.ico" ToolTipText="Get Up!" x:Name="TaskbarIcon"
                     DoubleClickCommand="{Binding RestoreWindowCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
     <UniformGrid Margin="20" Columns="2">
       <Border Background="#CB324B" Margin="20" CornerRadius="4" Grid.IsSharedSizeScope="True">
