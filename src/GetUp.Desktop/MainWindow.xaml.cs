@@ -9,13 +9,16 @@
 // <web>http://www.webforall.be</web>
 // -----------------------------------------------------------------------
 
-namespace GetUp.Desktop
+namespace GetUp.Desktop.Views
 {
 
   using System;
   using System.Windows;
   using System.Windows.Input;
+  using Events;
   using GalaSoft.MvvmLight.Command;
+  using GalaSoft.MvvmLight.Messaging;
+  using GalaSoft.MvvmLight.Threading;
   using Hardcodet.Wpf.TaskbarNotification;
   using Properties;
   using ViewModels;
@@ -28,16 +31,9 @@ namespace GetUp.Desktop
     public MainWindow()
     {
       Loaded += MainWindow_Loaded;
+      Messenger.Default.Register<MaximumActiveTimeElapsed>(this, _ => OnMaximumActiveTimeElapsed());
       InitializeComponent();
-      DataContext = CreateViewModel();
-    }
-
-    private MainViewModel CreateViewModel()
-    {
-      var viewModel = new MainViewModel();
-      viewModel.MaximumActiveTimeElapsed += (s, e) => OnMaximumActiveTimeElapsed();
-
-      return viewModel;
+      DataContext = new MainWindowModel();
     }
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -54,14 +50,10 @@ namespace GetUp.Desktop
 
     private void RestoreWindow()
     {
-      if (Dispatcher.CheckAccess())
+      DispatcherHelper.CheckBeginInvokeOnUI(() =>
       {
         WindowState = WindowState.Normal;
-      }
-      else
-      {
-        Dispatcher.Invoke(RestoreWindow);
-      }
+      });
     }
 
     protected override void OnStateChanged(EventArgs e)

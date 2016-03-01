@@ -1,10 +1,10 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="MainViewModel.cs" company="WebForAll">
+// <copyright file="StatusViewModel.cs" company="WebForAll">
 //   Copyright © WebForAll. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 // <author>Julien Poulin</author>
-// <date>29/04/2015</date>
+// <date>01/03/2016</date>
 // <project>GetUp.Desktop</project>
 // <web>http://www.webforall.be</web>
 // -----------------------------------------------------------------------
@@ -15,13 +15,15 @@ namespace GetUp.Desktop.ViewModels
   using System;
   using System.Runtime.CompilerServices;
   using System.Threading;
+  using Events;
   using GalaSoft.MvvmLight;
   using GalaSoft.MvvmLight.CommandWpf;
+  using GalaSoft.MvvmLight.Messaging;
   using JetBrains.Annotations;
   using Properties;
   using Tools;
 
-  public sealed class MainViewModel : ViewModelBase, IDisposable
+  public class StatusViewModel : ViewModelBase, IDisposable
   {
 
     private const int TimerResolution = 250;
@@ -35,13 +37,6 @@ namespace GetUp.Desktop.ViewModels
       base.RaisePropertyChanged(propertyName);
     }
 #endif
-
-    public event EventHandler MaximumActiveTimeElapsed;
-
-    private void OnMaximumActiveTimeElapsed()
-    {
-      MaximumActiveTimeElapsed?.Invoke(this, EventArgs.Empty);
-    }
 
     private bool _IsEnabled;
 
@@ -99,7 +94,7 @@ namespace GetUp.Desktop.ViewModels
         if (!value.Equals(_PauseThreshold))
         {
           _PauseThreshold = value;
-          Settings.Default.PauseThreshold = (int) value.TotalMinutes;
+          Settings.Default.PauseThreshold = (int)value.TotalMinutes;
           RaisePropertyChanged();
         }
       }
@@ -115,11 +110,13 @@ namespace GetUp.Desktop.ViewModels
         if (!value.Equals(_MaximumActiveTime))
         {
           _MaximumActiveTime = value;
-          Settings.Default.MaximumActiveTime = (int) value.TotalMinutes;
+          Settings.Default.MaximumActiveTime = (int)value.TotalMinutes;
           RaisePropertyChanged();
         }
       }
     }
+
+    private bool _HasMaximumActiveTimeElapsed;
 
     public bool HasMaximumActiveTimeElapsed
     {
@@ -132,13 +129,13 @@ namespace GetUp.Desktop.ViewModels
           RaisePropertyChanged();
           if (_HasMaximumActiveTimeElapsed)
           {
-            OnMaximumActiveTimeElapsed();
+            MessengerInstance.Send(new MaximumActiveTimeElapsed());
           }
         }
       }
     }
 
-    public MainViewModel()
+    public StatusViewModel()
     {
       MaximumActiveTime = TimeSpan.FromMinutes(Settings.Default.MaximumActiveTime);
       PauseThreshold = TimeSpan.FromMinutes(Settings.Default.PauseThreshold);
@@ -182,8 +179,6 @@ namespace GetUp.Desktop.ViewModels
     }
 
     private RelayCommand<int> _IncrementPauseThresholdCommand;
-
-    private bool _HasMaximumActiveTimeElapsed;
 
     [UsedImplicitly]
     public RelayCommand<int> IncrementPauseThresholdCommand

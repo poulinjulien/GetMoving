@@ -13,9 +13,17 @@ namespace GetUp.Desktop
 {
 
   using System.Windows;
+  using GalaSoft.MvvmLight.Threading;
 
   public partial class App
   {
+
+    protected override void OnStartup(StartupEventArgs e)
+    {
+      base.OnStartup(e);
+
+      DispatcherHelper.Initialize();
+    }
 
     protected override void OnExit(ExitEventArgs e)
     {
