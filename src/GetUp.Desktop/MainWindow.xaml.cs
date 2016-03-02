@@ -46,6 +46,14 @@ namespace GetUp.Desktop.Views
       }
     }
 
+    protected override void OnContentRendered(EventArgs e)
+    {
+      base.OnContentRendered(e);
+
+      MinHeight = ActualHeight;
+      MinWidth = ActualWidth;
+    }
+
     public ICommand RestoreWindowCommand => _RestoreWindowCommand ?? (_RestoreWindowCommand = new RelayCommand(RestoreWindow));
 
     private void RestoreWindow()
